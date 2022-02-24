@@ -28,9 +28,11 @@ jobs:
 
   documentation:
     name: "Publish documentation"
-    if: "needs.release-please.outputs.release_created"
 
     needs:
       - "release-please"
 
+    if: "needs.release-please.outputs.release_created"
     uses: "./.github/workflows/documentation.yml"
+    with:
+      latest_version: "${{ needs.release-please.outputs.major }}.${{ needs.release-please.outputs.minor }}.${{ needs.release-please.outputs.patch }}"

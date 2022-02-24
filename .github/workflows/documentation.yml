@@ -7,6 +7,10 @@ on:
       - "docs/**"
 
   workflow_call:
+    inputs:
+      latest_version:
+        type: "string"
+        required: true
 
   workflow_dispatch:
 
@@ -27,6 +31,11 @@ jobs:
         with:
           args: "make docs"
 
+      - name: "Create latest version link"
+        if: "inputs"
+        run: |
+          ln -sf 'public/docs/{{ inputs.latest_version }}' 'public/docs/latest'
+
       - name: "Upload generated artifact"
         if: "github.event_name == 'pull_request'"
         uses: "actions/upload-artifact@v2"
@@ -42,3 +51,5 @@ jobs:
           folder: "public/docs"
           target-folder: "docs"
           commit-message: "ci: publish documentation for ${{ github.sha }}"
+          clean-exclude: |
+            latest
