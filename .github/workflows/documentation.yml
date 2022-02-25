@@ -47,7 +47,7 @@ jobs:
         if: "github.event_name == 'push' && github.ref_name == 'master'"
         uses: "docker://ghcr.io/camptocamp/antora:v3"
         with:
-          args: "sh -c \"ls -la public && ls -la public/docs && ln -sf '${{ inputs.latest_version }}' 'public/docs/latest'\""
+          args: "ln -sf '${{ inputs.latest_version }}' 'public/docs/latest'"
 
       - name: "Upload generated artifact"
         if: "github.event_name == 'pull_request'"
