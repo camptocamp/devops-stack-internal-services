@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.56.0](https://github.com/yann-soubeyrand/devops-stack/compare/v0.55.1...v0.56.0) (2022-02-25)
+
+
+### Features
+
+* test ([5ca756a](https://github.com/yann-soubeyrand/devops-stack/commit/5ca756a91884b17dfb12c3942b886aede560c2a4))
+
 ### [0.55.1](https://github.com/yann-soubeyrand/devops-stack/compare/v0.55.0...v0.55.1) (2022-02-25)
 
 
