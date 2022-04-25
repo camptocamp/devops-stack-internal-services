@@ -11,12 +11,19 @@ locals {
     cluster_ca_certificate = base64decode(local.context.clusters.0.cluster.certificate-authority-data)
   }
 
-  default_nodepools = {
+  default_nodepools = tomap({
     "router-${var.cluster_name}" = {
-      size          = 2
-      instance_type = "standard.large"
+      size            = 2
+      instance_type   = "standard.large"
+      description     = null
+      instance_prefix = null
+      disk_size       = null
+
+      labels              = null
+      taints              = null
+      private_network_ids = null
     },
-  }
+  })
 
   router_nodepool   = coalesce(var.router_nodepool, "router-${var.cluster_name}")
   nodepools         = coalesce(var.nodepools, local.default_nodepools)
@@ -130,18 +137,6 @@ resource "exoscale_security_group_rule" "all" {
   protocol               = "TCP"
   start_port             = 1
   end_port               = 65535
-}
-
-resource "exoscale_domain" "this" {
-  name = local.base_domain
-}
-
-resource "exoscale_domain_record" "wildcard" {
-  domain      = exoscale_domain.this.id
-  name        = format("*.apps.%s", var.cluster_name)
-  record_type = "A"
-  ttl         = 300
-  content     = exoscale_nlb.this.ip_address
 }
 
 module "argocd" {
